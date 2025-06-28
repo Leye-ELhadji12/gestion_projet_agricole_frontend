@@ -2,11 +2,12 @@ import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import { ActivityService } from '../service/activity-service';
 import { Activity, ActivityStatus, Priorite } from '../model/model'; // Import Priorite
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { CdkDragDrop, moveItemInArray, transferArrayItem, DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-activitiesproject',
-  imports: [CommonModule ],
+  imports: [CommonModule, DragDropModule ],
   templateUrl: './activitiesproject.html',
   styleUrl: './activitiesproject.css'
 })
@@ -32,6 +33,8 @@ export class Activitiesproject implements OnInit {
   pageSize = this.activityService.pageSize;
   totalPages = this.activityService.totalPages;
   totalElements = this.activityService.totalElements;
+
+  kanbanColumnIds: string[] = Object.values(ActivityStatus).map(status => status.toString());
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -72,7 +75,7 @@ export class Activitiesproject implements OnInit {
   }
 
   getActivitiesByStatus(status: ActivityStatus): Activity[] {
-    return this.activities().filter(activity => activity.status.trim() === status.trim());
+    return [...this.activities().filter(activity => activity.status === status)];
   }
 
   viewDetails(activity: Activity) {
@@ -86,4 +89,45 @@ export class Activitiesproject implements OnInit {
   addActivityToStatus(_t69: ActivityStatus) {
     throw new Error('Method not implemented.');
   }
+
+  drop(event: CdkDragDrop<Activity[]>) {
+    if (event.previousContainer === event.container) {
+      // Item moved within the same list
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      // Item moved from one list to another
+      const movedActivity = event.previousContainer.data[event.previousIndex];
+      const newStatus = event.container.id as ActivityStatus; // Get the target column's status
+
+      // Update the activity's status locally
+      movedActivity.status = newStatus;
+
+      // Transfer the item in the UI
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+
+      // Call the service to update the activity on the backend
+      // It's crucial to send the updated activity to your backend
+      if (movedActivity.id) {
+        this.activityService.updateActivity(movedActivity.id, movedActivity).subscribe({
+          next: (updatedActivity) => {
+            console.log('Activity status updated on backend:', updatedActivity);
+            // Optionally, refresh activities or update the specific one in the signal
+            // this.activityService.loadActivitiesForProject(this.activityService.currentProjectId()!);
+          },
+          error: (err) => {
+            console.error('Failed to update activity status on backend:', err);
+            // Revert UI change if backend update fails (optional but good for UX)
+            // Or handle the error gracefully, perhaps by showing a message
+          }
+        });
+      }
+    }
+  }
 }
+
+

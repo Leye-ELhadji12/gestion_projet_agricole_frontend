@@ -59,7 +59,7 @@ export interface Activity {
 }
 
 export enum ActivityStatus {
-  EN_COURS = 'En cours',
+  EN_COURS = 'En_cours',
   TERMINE = 'Terminé',
   PAUSE = 'Pause',
   ANNULE = 'Annulé',
