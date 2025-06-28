@@ -1,12 +1,29 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, signal, ViewChild } from '@angular/core';
+import { Sidebar } from './sidebar/sidebar';
+import { Header } from './header/header';
+import { MainContent } from './main-content/main-content';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [
+    Sidebar,
+    Header,
+    MainContent
+  ],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
-  protected title = 'project_management';
+  title = 'project-management-app';
+  isSidebarHidden = signal(false);
+
+  @ViewChild(MainContent) mainContent!: MainContent;
+
+  onToggleSidebar() {
+    this.isSidebarHidden.update((value) => !value);
+  }
+
+  onViewChanged(view: string) {
+    this.mainContent.changeView(view);
+  }
 }
