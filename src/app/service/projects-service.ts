@@ -1,5 +1,5 @@
 import {computed, inject, Injectable, signal} from '@angular/core';
-import {HttpErrorResponse, httpResource} from '@angular/common/http';
+import {HttpErrorResponse, httpResource, HttpClient} from '@angular/common/http';
 import { dev } from '../../environment/develpment';
 import { Project, ProjectResponse } from '../model/model';
 import { setErrorMessage } from '../errorMessage/message';
@@ -12,7 +12,7 @@ export class ProjectsService {
   currentPage = signal(0);
   pageSize = signal(10);
   selectedProject = signal<number>(0);
-
+  private http = inject(HttpClient);
 
   private projectsUrl = computed(() => {
     const page = this.currentPage();
@@ -38,5 +38,17 @@ export class ProjectsService {
 
   loadPage(page: number) {
     this.currentPage.set(page);
+  }
+
+  createProject(project: Project) {
+    return this.http.post<Project>(`${dev.apiUrl}${dev.apiVersion}projects/create`, project);
+  }
+
+  updateProject(projectId: number, project: Project) {
+    return this.http.patch<Project>(`${dev.apiUrl}${dev.apiVersion}projects/update/${projectId}`, project);
+  }
+
+  deleteProject(projectId: number) {
+    return this.http.delete<void>(`${dev.apiUrl}${dev.apiVersion}projects/delete/${projectId}`);
   }
 }

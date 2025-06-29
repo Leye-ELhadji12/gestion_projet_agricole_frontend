@@ -1,0 +1,16 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center backdrop-contrast-50">
+  <div class="relative bg-white p-8 rounded-lg shadow-xl w-11/12 max-w-sm">
+    <h2 class="text-xl font-bold mb-4 text-red-600 text-center">Erreur</h2>
+    <p class="text-gray-700 mb-6 text-center">{{ message }}</p>
+
+    <div class="flex justify-center">
+      <button
+        type="button"
+        (click)="onClose()"
+        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      >
+        Fermer
+      </button>
+    </div>
+  </div>
+</div>
