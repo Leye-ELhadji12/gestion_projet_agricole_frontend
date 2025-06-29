@@ -101,7 +101,7 @@ export class Projects {
     if (project.id) {
       this.projectService.updateProject(project.id, project).pipe(take(1)).subscribe({
         next: () => {
-          this.projectService.loadPage(this.currentPage());
+          this.projectService.loadPage(0);
           this.closeProjectFormModal();
         },
         error: (err) => {
@@ -111,7 +111,7 @@ export class Projects {
     } else {
       this.projectService.createProject(project).pipe(take(1)).subscribe({
         next: () => {
-          this.projectService.loadPage(this.currentPage());
+          this.projectService.loadPage(0);
           this.closeProjectFormModal();
         },
         error: (err) => {
@@ -150,7 +150,7 @@ export class Projects {
           console.error('Error deleting project:', err);
           this.closeConfirmationModal();
           const userFriendlyForeignKeyMessage = `Vous devez d'abord supprimer toutes les activités liées à ce projet pour pouvoir supprimer ce projet.`;
-          const genericErrorMessage = `Vous devez d'abord supprimer toutes les activités liées à ce projet pour pouvoir supprimer ce projet.Une erreur inattendue est survenue lors de la suppression du projet. Veuillez réessayer.`;
+          const genericErrorMessage = `Vous devez d'abord supprimer toutes les activités liées à ce projet pour pouvoir supprimer ce projet..Une erreur inattendue est survenue lors de la suppression du projet. Veuillez réessayer.`;
           let messageToDisplay = genericErrorMessage;
           if (err.status === 500 && err.error) {
             if (

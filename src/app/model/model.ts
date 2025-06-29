@@ -32,7 +32,7 @@ export interface Project {
 }
 
 export enum ProjectStatus {
-  EN_COURS = 'En cours',
+  EN_COURS = 'En_cours',
   TERMINE = 'Terminé',
   ANNULE = 'Annulé',
   PREVISIONNEL = 'Prévisionnel',
