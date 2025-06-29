@@ -1,26 +1,32 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { ProjectsService } from '../service/projects-service';
-import { Project } from '../model/model';
-import { CommonModule } from '@angular/common';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule, CurrencyPipe, DatePipe, registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { Project, Responsible } from '../model/model';
+
+registerLocaleData(localeFr);
 
 @Component({
   selector: 'app-detail-project',
-  imports: [CommonModule],
+  imports: [CommonModule, CurrencyPipe, DatePipe],
   templateUrl: './detail-project.html',
   styleUrl: './detail-project.css'
 })
 export class DetailProject {
-
-  private projectService = inject(ProjectsService);
-
-  @Input() project!: Project;
+  @Input({ required: true }) project!: Project;
   @Output() closeModalDetail = new EventEmitter<void>();
-
-  detailProject = this.projectService.detailProject;
-  detailError = this.projectService.errorDetail;
 
   closeModal() {
     this.closeModalDetail.emit();
   }
 
+  getInitials(responsible: Responsible): string {
+    if (!responsible.firstname && !responsible.lastname) return 'NN';
+    const firstInitial = responsible.firstname ? String(responsible.firstname).charAt(0) : '';
+    const lastInitial = responsible.lastname ? String(responsible.lastname).charAt(0) : '';
+    return (firstInitial + lastInitial).toUpperCase();
+  }
+
+  inviteStakeholders() {
+    console.log('Invite stakeholders for project:', this.project.name);
+  }
 }

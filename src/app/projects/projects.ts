@@ -101,21 +101,15 @@ export class Projects {
     if (project.id) {
       this.projectService.updateProject(project.id, project).pipe(take(1)).subscribe({
         next: () => {
-          this.projectService.loadPage(0);
+          this.projectService.loadPage(this.currentPage());
           this.closeProjectFormModal();
-        },
-        error: (err) => {
-          console.error('Error updating project:', err);
         }
       });
     } else {
       this.projectService.createProject(project).pipe(take(1)).subscribe({
         next: () => {
-          this.projectService.loadPage(0);
+          this.projectService.loadPage(this.currentPage());
           this.closeProjectFormModal();
-        },
-        error: (err) => {
-          console.error('Error creating project:', err);
         }
       });
     }
@@ -147,7 +141,6 @@ export class Projects {
           this.closeConfirmationModal();
         },
         error: (err: HttpErrorResponse) => {
-          console.error('Error deleting project:', err);
           this.closeConfirmationModal();
           const userFriendlyForeignKeyMessage = `Vous devez d'abord supprimer toutes les activités liées à ce projet pour pouvoir supprimer ce projet.`;
           const genericErrorMessage = `Vous devez d'abord supprimer toutes les activités liées à ce projet pour pouvoir supprimer ce projet..Une erreur inattendue est survenue lors de la suppression du projet. Veuillez réessayer.`;

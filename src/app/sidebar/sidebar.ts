@@ -1,5 +1,5 @@
-import { Component, signal, Input } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, signal, Input, inject } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -8,5 +8,12 @@ import { RouterModule } from '@angular/router';
   styleUrl: './sidebar.css',
 })
 export class Sidebar {
+
+  private router = inject(Router);
+
   @Input() isHidden = signal(false);
+
+  isProjectsOrActivitiesRouteActive(): boolean {
+    return this.router.url.startsWith('/dashboard/projects') || this.router.url.startsWith('/dashboard/project-activities');
+  }
 }

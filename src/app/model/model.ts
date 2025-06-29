@@ -29,6 +29,7 @@ export interface Project {
   endDate: Date;
   totalBudget: number;
   status: ProjectStatus;
+  responsibles?: Responsible[];
 }
 
 export enum ProjectStatus {

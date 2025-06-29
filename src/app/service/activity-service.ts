@@ -46,12 +46,16 @@ export class ActivityService {
     this.currentPage.set(0);
   }
 
+  createActivity(projectID: number, activity: Activity): Observable<Activity> {
+    return this.http.post<Activity>(`${dev.apiUrl}${dev.apiVersion}activities/${projectID}/create`, activity);
+  }
+
   updateActivity(id: number, activity: Activity): Observable<Activity> {
-    return this.http.patch<Activity>(`${dev.apiUrl}${dev.apiVersion}activities/update/${id}`, activity); // Changed to PATCH
+    return this.http.patch<Activity>(`${dev.apiUrl}${dev.apiVersion}activities/update/${id}`, activity);
   }
 
   deleteActivity(id: number): Observable<void> {
-    return this.http.delete<void>(`${dev.apiUrl}${dev.apiVersion}activities/${id}`);
+    return this.http.delete<void>(`${dev.apiUrl}${dev.apiVersion}activities/delete/${id}`);
   }
 
 }
