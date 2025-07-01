@@ -34,13 +34,17 @@ export class Activitiesproject implements OnInit {
   totalPages = this.activityService.totalPages;
   totalElements = this.activityService.totalElements;
 
+  projectName: string | null = '';
+
   kanbanColumnIds: string[] = Object.values(ActivityStatus).map(status => status.toString());
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const projectId = Number(params.get('id'));
+      this.projectName = params.get('name');
       if (projectId) {
         console.log(projectId, 'id projet');
+        console.log(this.projectName, 'project name');
         this.activityService.loadActivitiesForProject(projectId);
       }
     });

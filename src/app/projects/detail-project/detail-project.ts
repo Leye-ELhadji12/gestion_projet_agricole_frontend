@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe, registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
-import { Project, Responsible } from '../model/model';
+import { Project, Responsible } from '../../model/model';
 
 registerLocaleData(localeFr);
 

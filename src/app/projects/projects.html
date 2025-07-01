@@ -99,23 +99,23 @@
                   </td>
                   <td class="px-6 py-4">
                     <a
-                      [routerLink]="['/dashboard/project-activities', project.id]"
+                      [routerLink]="['/dashboard/project-activities', project.id, project.name]"
                       title="Activités associées à ce projet"
                       class="px-3 py-1 bg-black text-white rounded hover:bg-gray-800 inline-block"
                       >Activités</a
                     >
                   </td>
                   <td class="py-6 px-4 flex space-x-2">
-                    <button title="edit" class="text-blue-500" (click)="openEditProjectModal(project)">
+                    <button title="Mise à jour du projet" class="text-blue-500" (click)="openEditProjectModal(project)">
                       <i class="fas fa-edit"></i>
                     </button>
                     <button
-                      title="voir les activités associées"
+                      title="Voir les détails du projet"
                       (click)="viewDetails(project)"
                     >
                       <i class="fas fa-eye"></i>
                     </button>
-                    <button title="delete" class="text-red-500" (click)="openDeleteProjectConfirmation(project)">
+                    <button title="Supprimer le projet" class="text-red-500" (click)="openDeleteProjectConfirmation(project)">
                       <i class="fas fa-trash-alt"></i>
                     </button>
                   </td>
@@ -135,9 +135,9 @@
           (click)="previousPage()"
           [disabled]="currentPage() === 0"
           title="Précédent"
-          class="p-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-150 ease-in-out"
+          class="p-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-75 transition duration-150 ease-in-out"
         >
-          <i class="fas fa-chevron-left text-black hover:text-blue-500"></i>
+          <i class="fas fa-chevron-left text-black hover:text-black"></i>
         </button>
         <span class="text-gray-700 font-medium"
           >Page {{ currentPage() + 1 }} sur {{ totalPages() }}</span
@@ -146,9 +146,9 @@
           (click)="nextPage()"
           [disabled]="currentPage() === totalPages() - 1"
           title="Suivant"
-          class="p-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-150 ease-in-out"
+          class="p-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-75 transition duration-150 ease-in-out"
         >
-          <i class="fas fa-chevron-right text-black hover:text-blue-500"></i>
+          <i class="fas fa-chevron-right text-black hover:text-black"></i>
         </button>
       </div>
 

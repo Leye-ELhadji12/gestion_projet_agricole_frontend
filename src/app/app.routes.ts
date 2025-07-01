@@ -64,10 +64,10 @@ export const routes: Routes = [
         component: Projects,
       },
       {
-        path: 'project-activities/:id',
+        path: 'project-activities/:id/:name',
         component: Activitiesproject
       },
-      
+
     ]
   },
   {

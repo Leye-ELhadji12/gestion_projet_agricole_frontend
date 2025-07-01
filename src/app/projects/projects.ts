@@ -3,7 +3,7 @@ import { ProjectsService } from '../service/projects-service';
 import { CurrencyPipe, DatePipe, CommonModule, registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { Project, ProjectStatus } from '../model/model';
-import { DetailProject } from "../detail-project/detail-project";
+import { DetailProject } from "./detail-project/detail-project";
 import { RouterLink } from '@angular/router';
 import { FormModal } from '../projects/form-modal/form-modal';
 import { take } from 'rxjs/operators';
