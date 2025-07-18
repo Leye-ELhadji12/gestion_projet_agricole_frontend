@@ -33,6 +33,7 @@
         @if (currentView() === 'table') {
           <button
             class="px-3 py-2 bg-[#2a2b2a] text-white rounded-[10px] hover:bg-[#ABC4AD] transition-colors"
+            (click)="openCreateActivityModal()"
           >
             <i class="fas fa-plus mr-2"></i>Nouvelle activité
           </button>
@@ -263,4 +264,13 @@
       <p class="p-4 text-center text-lg">Activity Details for {{ selectedActivity()!.title }}</p>
     </div>
   </div>
+}
+
+@if (showActivityFormModal()) {
+  <app-form-modal
+    [activity]="activityToEdit()"
+    [projectId]="currentProjectId()"
+    (saveActivity)="handleSaveActivity($event)"
+    (cancelActivity)="closeActivityFormModal()"
+  ></app-form-modal>
 }

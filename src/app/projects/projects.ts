@@ -15,7 +15,7 @@ registerLocaleData(localeFr);
 
 @Component({
   selector: 'app-projects',
-  imports: [DatePipe, CurrencyPipe, CommonModule, DetailProject, RouterLink, FormModal, ConfirmationModal, ErrorMessageModal ],
+  imports: [DatePipe, CurrencyPipe, CommonModule, DetailProject, RouterLink, FormModal, ConfirmationModal, ErrorMessageModal],
   templateUrl: './projects.html',
   styleUrl: './projects.css',
 })

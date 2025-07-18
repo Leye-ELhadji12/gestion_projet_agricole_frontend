@@ -50,8 +50,8 @@ export interface ActivityResponse {
 
 export interface Activity {
   id?: number;
-  title: String;
-  description: String;
+  title: string;
+  description: string;
   plannedStartDate: Date;
   plannedEndDate: Date;
   actualStartDate: Date;
