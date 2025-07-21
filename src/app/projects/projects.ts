@@ -143,7 +143,7 @@ export class Projects {
         error: (err: HttpErrorResponse) => {
           this.closeConfirmationModal();
           const userFriendlyForeignKeyMessage = `Vous devez d'abord supprimer toutes les activités liées à ce projet pour pouvoir supprimer ce projet.`;
-          const genericErrorMessage = `Vous devez d'abord supprimer toutes les activités liées à ce projet pour pouvoir supprimer ce projet..Une erreur inattendue est survenue lors de la suppression du projet. Veuillez réessayer.`;
+          const genericErrorMessage = `Une erreur inattendue est survenue lors de la suppression du projet. Veuillez réessayer.`;
           let messageToDisplay = genericErrorMessage;
           if (err.status === 500 && err.error) {
             if (

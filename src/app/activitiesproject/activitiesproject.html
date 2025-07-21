@@ -150,7 +150,7 @@
                     >
                       <i class="fas fa-eye"></i>
                     </button>
-                    <button title="delete" class="text-red-500">
+                    <button title="delete" class="text-red-500" (click)="openDeleteActivityConfirmation(activity)">
                       <i class="fas fa-trash-alt"></i>
                     </button>
                   </td>
@@ -235,7 +235,7 @@
                     <button title="voir les activités associées" (click)="viewDetails(activity)">
                       <i class="fas fa-eye text-sm"></i>
                     </button>
-                    <button title="Supprimer l'activité" class="text-red-500">
+                    <button title="Supprimer l'activité" class="text-red-500" (click)="openDeleteActivityConfirmation(activity)">
                       <i class="fas fa-trash-alt text-sm"></i>
                     </button>
                   </div>
@@ -275,4 +275,19 @@
     (saveActivity)="handleSaveActivity($event)"
     (cancelActivity)="closeActivityFormModal()"
   ></app-form-modal>
+}
+
+@if (showConfirmationModal()) {
+  <app-confirmation-modal
+    [message]="'Voulez-vous vraiment supprimer l\'activité ' + activityToDelete()?.title"
+    (confirm)="handleConfirmDelete()"
+    (cancel)="closeConfirmationModal()"
+  ></app-confirmation-modal>
+}
+
+@if (showErrorMessageModal()) {
+  <app-error-message-modal
+    [message]="deletionErrorMessage()!"
+    (close)="closeErrorMessageModal()"
+  ></app-error-message-modal>
 }

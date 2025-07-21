@@ -78,12 +78,12 @@
 //     if (view === 'kanban') {
 //       this.isKanban.set(true);
 //       console.log('kanban true');
-      
+
 //     }
 //     else {
 //       this.isKanban.set(false);
 //       console.log('kanban false');
-      
+
 //     }
 //   }
 
@@ -277,15 +277,18 @@ import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, DragDropModule } from '@angular/cdk/drag-drop';
-import { finalize, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 import { ActivityService } from '../service/activity-service';
 import { Activity, ActivityStatus, Priorite } from '../model/model';
 import { FormModal } from './form-modal/form-modal';
+import { ConfirmationModal } from '../projects/confirmation-modal/confirmation-modal';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorMessageModal } from './error-message-modal/error-message-modal';
 
 @Component({
   selector: 'app-activitiesproject',
-  imports: [CommonModule, DragDropModule, FormModal],
+  imports: [ CommonModule, DragDropModule, FormModal, ConfirmationModal, ErrorMessageModal ],
   templateUrl: './activitiesproject.html',
   styleUrl: './activitiesproject.css'
 })
@@ -327,7 +330,7 @@ export class Activitiesproject implements OnInit {
 
   kanbanColumnIds: string[] = Object.values(ActivityStatus).map(s => s.toString());
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const projectId = Number(params.get('id'));
       this.projectName = params.get('name');
@@ -351,7 +354,7 @@ export class Activitiesproject implements OnInit {
   previousPage() {
     if (this.currentPage() > 0) this.goToPage(this.currentPage() - 1);
   }
-  
+
   nextPage() {
     if (this.currentPage() < this.totalPages() - 1) this.goToPage(this.currentPage() + 1);
   }
@@ -468,9 +471,31 @@ export class Activitiesproject implements OnInit {
   }
 
   handleConfirmDelete() {
-    if (this.activityToDelete() && this.activityToDelete()!.id) {
-      // suppression backend (commentée chez toi)
-      // this.activityService.deleteActivity(this.activityToDelete()!.id).pipe(take(1)).subscribe();
+    const activity = this.activityToDelete();
+    if (activity && activity.id) {
+      this.activityService.deleteActivity(activity!.id).pipe(take(1)).subscribe({
+        next: () => {
+          this.activityService.loadActivitiesForProject(this.currentProjectId()!);
+          this.closeConfirmationModal();
+        },
+        error: (err: HttpErrorResponse) => {
+          this.closeConfirmationModal();
+          const userFriendlyForeignKeyMessage = `Vous devez d'abord supprimer toutes les documents liées à cette activité.`;
+          const genericErrorMessage = `Une erreur inattendue est survenue lors de la suppression de l'activité. Veuillez réessayer.`;
+          let messageToDisplay = genericErrorMessage;
+          if (err.status === 500 && err.error) {
+            if (
+              (err.error.message && String(err.error.message).toLowerCase().includes('dataintegrityviolationexception') && String(err.error.message).toLowerCase().includes('foreign key')) ||
+              (err.error.trace && String(err.error.trace).toLowerCase().includes('dataintegrityviolationexception') && String(err.error.trace).toLowerCase().includes('foreign key'))
+            ) {
+              messageToDisplay = userFriendlyForeignKeyMessage;
+            }
+          }
+          this.deletionErrorMessage.set(messageToDisplay);
+          this.showErrorMessageModal.set(true);
+        }
+      });
     }
   }
+
 }
