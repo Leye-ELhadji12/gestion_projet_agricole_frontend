@@ -51,25 +51,17 @@ export class FormModal implements OnChanges {
       this.activityForm.reset();
     }
     if (this.kanban && this.presetStatus) {
-      if (this.isEditing()) {
-        this.activityForm.get('status')?.enable({ emitEvent: false });
-      } else {
-        this.activityForm.get('status')?.disable({ emitEvent: false });
-        this.activityForm.patchValue({ status: this.presetStatus }, { emitEvent: false });
-      }
-    } else {
       this.activityForm.get('status')?.enable({ emitEvent: false });
+      this.activityForm.patchValue({ status: this.presetStatus }, { emitEvent: false });
+      this.activityForm.get('status')?.disable({ emitEvent: false });
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.kanban && this.presetStatus) {
-      if (this.isEditing()) {
-        this.activityForm.get('status')?.enable({ emitEvent: false });
-      } else {
-        this.activityForm.get('status')?.disable({ emitEvent: false });
-        this.activityForm.patchValue({ status: this.presetStatus }, { emitEvent: false });
-      }
+      this.activityForm.get('status')?.enable({ emitEvent: false });
+      this.activityForm.patchValue({ status: this.presetStatus }, { emitEvent: false });
+      this.activityForm.get('status')?.disable({ emitEvent: false });
     } else {
       this.activityForm.get('status')?.enable({ emitEvent: false });
     }
