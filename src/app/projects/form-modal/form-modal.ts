@@ -52,7 +52,6 @@ export class FormModal {
         startDate: formValue.startDate ? new Date(formValue.startDate) : undefined,
         endDate: formValue.endDate ? new Date(formValue.endDate) : undefined,
       } as Project;
-
       this.save.emit(projectToSave);
       this.projectForm.reset();
     }

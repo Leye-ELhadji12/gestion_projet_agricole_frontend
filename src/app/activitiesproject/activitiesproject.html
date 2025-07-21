@@ -15,7 +15,7 @@
             [class.text-white]="currentView() === 'table'"
             [class.bg-gray-200]="currentView() !== 'table'"
             [class.text-gray-800]="currentView() !== 'table'"
-            class="px-4 py-2 rounded-[20px] transition-colors"
+            class="px-4 py-1 rounded-[10px] transition-colors"
           >
             <i class="fas fa-table mr-2"></i>Tableau
           </button>
@@ -25,14 +25,14 @@
             [class.text-white]="currentView() === 'kanban'"
             [class.bg-gray-200]="currentView() !== 'kanban'"
             [class.text-gray-800]="currentView() !== 'kanban'"
-            class="px-4 py-2 rounded-[20px] transition-colors"
+            class="px-4 py-1 rounded-[10px] transition-colors"
           >
             <i class="fas fa-columns mr-2"></i>Kanban
           </button>
         </div>
         @if (currentView() === 'table') {
           <button
-            class="px-3 py-2 bg-[#2a2b2a] text-white rounded-[10px] hover:bg-[#ABC4AD] transition-colors"
+            class="px-3 py-1 bg-[#2a2b2a] text-white rounded-[10px] hover:bg-[#ABC4AD] transition-colors"
             (click)="openCreateActivityModal()"
           >
             <i class="fas fa-plus mr-2"></i>Nouvelle activité
@@ -97,7 +97,7 @@
                     <input title="cocher la case" type="checkbox" />
                   </td>
                   <td
-                    class="px-6 py-4 font-medium text-gray-900"
+                    class="px-6 py- 4 font-medium text-gray-900"
                   >
                     {{ activity.title }}
                   </td>
@@ -269,6 +269,8 @@
 @if (showActivityFormModal()) {
   <app-form-modal
     [activity]="activityToEdit()"
+    [kanban]="isKanban()"
+    [presetStatus]="presetStatus()"
     [projectId]="currentProjectId()"
     (saveActivity)="handleSaveActivity($event)"
     (cancelActivity)="closeActivityFormModal()"

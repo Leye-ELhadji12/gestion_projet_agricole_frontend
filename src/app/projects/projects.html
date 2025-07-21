@@ -91,7 +91,7 @@
                       [class.bg-gray-200]="project.status.trim() === 'Prévisionnel'"
                       [class.text-gray-800]="project.status.trim() === 'Prévisionnel'"
                     >
-                      {{ project.status}}
+                      {{ project.status }}
                     </span>
                   </td>
                   <td class="px-6 py-4">
@@ -102,8 +102,9 @@
                       [routerLink]="['/dashboard/project-activities', project.id, project.name]"
                       title="Activités associées à ce projet"
                       class="px-3 py-1 bg-black text-white rounded hover:bg-gray-800 inline-block"
-                      >Activités</a
                     >
+                      Activités
+                    </a>
                   </td>
                   <td class="py-6 px-4 flex space-x-2">
                     <button title="Mise à jour du projet" class="text-blue-500" (click)="openEditProjectModal(project)">
@@ -139,9 +140,9 @@
         >
           <i class="fas fa-chevron-left text-black hover:text-black"></i>
         </button>
-        <span class="text-gray-700 font-medium"
-          >Page {{ currentPage() + 1 }} sur {{ totalPages() }}</span
-        >
+        <span class="text-gray-700 font-medium">
+          Page {{ currentPage() + 1 }} sur {{ totalPages() }}
+        </span>
         <button
           (click)="nextPage()"
           [disabled]="currentPage() === totalPages() - 1"
@@ -151,7 +152,6 @@
           <i class="fas fa-chevron-right text-black hover:text-black"></i>
         </button>
       </div>
-
   </div>
 </div>
 
