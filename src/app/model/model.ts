@@ -1,10 +1,11 @@
 export interface Responsible {
-  email: String;
-  firstname: String;
-  lastname: String;
-  password: String;
+  id?: number;
+  email: string;
+  firstname: string;
+  lastname: string;
+  password: string;
   role: Role;
-  phone: String;
+  phone: string;
 }
 
 export enum Role {
@@ -14,6 +15,15 @@ export enum Role {
 
 export interface ProjectResponse {
   content: Project[];
+  totalElements: number;
+  totalPages: number;
+  number: number;
+  size: number;
+  count: number;
+}
+
+export interface ResponsibleResponse {
+  content: Responsible[];
   totalElements: number;
   totalPages: number;
   number: number;

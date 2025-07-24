@@ -14,6 +14,7 @@ export class Sidebar {
   @Input() isHidden = signal(false);
 
   isProjectsOrActivitiesRouteActive(): boolean {
-    return this.router.url.startsWith('/dashboard/projects') || this.router.url.startsWith('/dashboard/project-activities');
+    return this.router.url.startsWith('/projects-management/projects') || this.router.url.startsWith('/projects-management/project-activities');
   }
+
 }

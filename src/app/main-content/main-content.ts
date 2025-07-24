@@ -8,6 +8,7 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './main-content.css'
 })
 export class MainContent {
+
   currentView = signal<string>('dashboard');
   @Input() isSidebarHidden =  signal(false);
 

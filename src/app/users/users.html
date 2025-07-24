@@ -1,1 +1,139 @@
-<p>users works!</p>
+<div class="flex flex-col gap-4 rounded-xl w-full">
+  <div class="container sm:px-6 lg:px-8 bg-white grid grid-col-1 gap-4">
+    <div class="mb-2 border-b border-gray-300 pb-1">
+      <div class="page-title mt-2 text-2xl font-bold text-gray-800 mb-10 flex justify-between items-center">
+        <h2>Gestion des utilisateurs</h2>
+        <button
+          class="px-2 py-1 bg-[#2a2b2a] text-white rounded-[10px] hover:bg-[#ABC4AD] transition-colors text-xl"
+          (click)="openCreateUserModal()"
+        >
+          <i class="fas fa-plus mr-1"></i>Nouvel utilisateur
+        </button>
+      </div>
+    </div>
+
+    @if (isLoading()) {
+      <div class="flex justify-center items-center h-48">
+        <div class="text-xl text-gray-600">Chargement des utilisateurs...</div>
+      </div>
+    } @else if (errorMessage()) {
+      <div class="p-4 bg-red-100 border border-red-400 text-red-700 rounded-md" role="alert">
+        <strong class="font-bold">Error!</strong>
+        <span class="block sm:inline">Une erreur est survenue: {{ errorMessage() }}</span>
+      </div>
+    } @else {
+      @if (responsibles().length > 0) {
+        <div class="overflow-x-auto w-full">
+          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" class="px-6 py-3">
+                  <span class="text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">Avatar</span>
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  <i class="fas fa-user mr-2"></i>Prénom
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  <i class="fas fa-user mr-2"></i>Nom
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  <i class="fas fa-envelope mr-2"></i>Adresse e-mail
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  <i class="fas fa-user-tag mr-2"></i>Rôle
+                </th>
+                <th scope="col" class="px-6 py-3 text-center">
+                  <i class="fas fa-cogs mr-2"></i>Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (user of responsibles(); track user.email) {
+              <tr class="bg-white border-b hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600">
+                <td class="px-6 py-4">
+                  <div
+                    class="h-9 w-9 rounded-full bg-gray-300 flex items-center justify-center shadow text-gray-800 font-bold text-sm"
+                    aria-hidden="true"
+                  >
+                    {{ getInitials(user.firstname, user.lastname) }}
+                  </div>
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  {{ user.firstname }}
+                </td>
+                <td class="px-6 py-4">{{ user.lastname }}</td>
+                <td class="px-6 py-4">{{ user.email }}</td>
+                <td class="px-6 py-4">
+                  <span [class]="getRoleOutlineClass(user.role)">{{ user.role }}</span>
+                </td>
+                <td class="px-6 py-4 flex justify-center space-x-3">
+                  <button
+                    title="Edit user"
+                    class="text-blue-600 hover:text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-md p-1 transition duration-150 ease-in-out"
+                    (click)="editUser(user)"
+                  >
+                    <i class="fas fa-edit text-lg"></i>
+                  </button>
+                  <button
+                    title="Delete user"
+                    class="text-red-600 hover:text-red-900 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 rounded-md p-1 transition duration-150 ease-in-out"
+                    (click)="openDeleteUserConfirmation(user)"
+                  >
+                    <i class="fas fa-trash-alt text-lg"></i>
+                  </button>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="flex justify-end items-center gap-4 mt-8">
+          <button
+            (click)="previousPageResponsibles()"
+            [disabled]="currentPage() === 0"
+            title="Previous"
+            class="p-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-150 ease-in-out"
+          >
+            <i class="fas fa-chevron-left text-black hover:text-blue-500"></i>
+          </button>
+          <span class="text-gray-700 font-medium">Page {{ currentPage() + 1 }} of {{ totalPages() }}</span>
+          <button
+            (click)="nextPageResponsibles()"
+            [disabled]="currentPage() === totalPages() - 1"
+            title="Next"
+            class="p-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-150 ease-in-out"
+          >
+            <i class="fas fa-chevron-right text-black hover:text-blue-500"></i>
+          </button>
+        </div>
+      } @else {
+        <div class="flex justify-center items-center h-48">
+          <div class="text-xl text-gray-600">Aucun utilisateur trouvé.</div>
+        </div>
+      }
+    }
+  </div>
+</div>
+
+@if (showUserFormModal()) {
+  <app-user-form-modal
+    [user]="userToEdit()"
+    (save)="handleSaveUser($event)"
+    (cancel)="closeUserFormModal()"
+  ></app-user-form-modal>
+}
+
+@if (showConfirmationModal()) {
+  <app-confirmation-modal
+    [message]="'Are you sure you want to delete the user ' + userToDelete()?.firstname + ' ' + userToDelete()?.lastname + '?'"
+    (confirm)="handleConfirmDeleteUser()"
+    (cancel)="closeConfirmationModal()"
+  ></app-confirmation-modal>
+}
+
+@if (showErrorMessageModal()) {
+  <app-error-message-modal
+    [message]="deletionErrorMessage()!"
+    (close)="closeErrorMessageModal()"
+  ></app-error-message-modal>
+}

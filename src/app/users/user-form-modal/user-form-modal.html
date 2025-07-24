@@ -1,0 +1,109 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center backdrop-contrast-50">
+  <div class="relative bg-white p-8 rounded-lg shadow-xl w-11/12 max-w-lg max-h-[90vh] overflow-y-auto">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800 text-center">
+      {{ isEditing() ? 'Edit User' : 'Create New User' }}
+    </h2>
+    <form [formGroup]="userForm" (ngSubmit)="onSave()">
+      <div class="mb-4">
+        <label for="firstname" class="block text-gray-700 text-sm font-semibold mb-2">First Name:</label>
+        <input
+          id="firstname"
+          type="text"
+          formControlName="firstname"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          [class.border-red-500]="userForm.get('firstname')?.invalid && userForm.get('firstname')?.touched"
+        />
+        @if (userForm.get('firstname')?.invalid && userForm.get('firstname')?.touched) {
+          <p class="text-red-500 text-xs italic mt-1">First name is required.</p>
+        }
+      </div>
+
+      <div class="mb-4">
+        <label for="lastname" class="block text-gray-700 text-sm font-semibold mb-2">Last Name:</label>
+        <input
+          id="lastname"
+          type="text"
+          formControlName="lastname"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          [class.border-red-500]="userForm.get('lastname')?.invalid && userForm.get('lastname')?.touched"
+        />
+        @if (userForm.get('lastname')?.invalid && userForm.get('lastname')?.touched) {
+          <p class="text-red-500 text-xs italic mt-1">Last name is required.</p>
+        }
+      </div>
+
+      <div class="mb-4">
+        <label for="email" class="block text-gray-700 text-sm font-semibold mb-2">Email:</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          [class.border-red-500]="userForm.get('email')?.invalid && userForm.get('email')?.touched"
+        />
+        @if (userForm.get('email')?.invalid && userForm.get('email')?.touched) {
+          <p class="text-red-500 text-xs italic mt-1">A valid email is required.</p>
+        }
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="block text-gray-700 text-sm font-semibold mb-2">Password:</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          [class.border-red-500]="userForm.get('password')?.invalid && userForm.get('password')?.touched"
+        />
+        @if (userForm.get('password')?.invalid && userForm.get('password')?.touched) {
+          <p class="text-red-500 text-xs italic mt-1">Password is required.</p>
+        }
+      </div>
+
+      <div class="mb-4">
+        <label for="phone" class="block text-gray-700 text-sm font-semibold mb-2">Phone:</label>
+        <input
+          id="phone"
+          type="text"
+          formControlName="phone"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
+      </div>
+
+      <div class="mb-6">
+        <label for="role" class="block text-gray-700 text-sm font-semibold mb-2">Role:</label>
+        <select
+          id="role"
+          formControlName="role"
+          class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-3 py-2 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+          [class.border-red-500]="userForm.get('role')?.invalid && userForm.get('role')?.touched"
+        >
+          <option [ngValue]="null" disabled>Select a role</option>
+          @for (role of RoleOptions; track role) {
+            <option [ngValue]="role">{{ role }}</option>
+          }
+        </select>
+        @if (userForm.get('role')?.invalid && userForm.get('role')?.touched) {
+          <p class="text-red-500 text-xs italic mt-1">Role is required.</p>
+        }
+      </div>
+
+      <div class="flex items-center justify-end gap-3">
+        <button
+          type="submit"
+          [disabled]="!userForm.valid"
+          class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {{ isEditing() ? 'Save' : 'Create' }}
+        </button>
+        <button
+          type="button"
+          (click)="onCancel()"
+          class="bg-red-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

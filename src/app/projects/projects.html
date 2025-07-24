@@ -1,21 +1,18 @@
-<div
-  class="flex flex-col gap-4 rounded-xl w-full"
->
-  <div class="container sm:px-6 lg:px-8 bg-white grid grid-col-1 grap-4"
-  >
-  <div class="mb-2 border-b border-gray-300 pb-1">
-    <div class="page-title mt-2 text-2xl font-bold text-gray-800 mb-10">
-      <i class=""><h2>LISTE DES PROJETS</h2></i>
+<div class="flex flex-col gap-4 rounded-xl w-full">
+  <div class="container sm:px-6 lg:px-8 bg-white grid grid-col-1 grap-4">
+    <div class="mb-2 border-b border-gray-300 pb-1">
+      <div class="page-title mt-2 text-2xl font-bold text-gray-800 mb-10">
+        <i class=""><h2>LISTE DES PROJETS</h2></i>
+      </div>
+      <div class="flex gap-2 mb-4 justify-between">
+        <button
+          class="px-3 py-2 bg-black text-white rounded-[10px] hover:bg-gray-800 transition-colors"
+          (click)="openCreateProjectModal()"
+        >
+          <i class="fas fa-plus mr-2"></i>Nouveau projet
+        </button>
+      </div>
     </div>
-    <div class="flex gap-2 mb-4 justify-between">
-      <button
-        class="px-3 py-2 bg-black text-white rounded-[10px] hover:bg-gray-800 transition-colors"
-        (click)="openCreateProjectModal()"
-      >
-        <i class="fas fa-plus mr-2"></i>Nouveau projet
-      </button>
-    </div>
-  </div>
     @if (Loading()) {
       <div class="flex justify-center items-center h-48">
         <div class="text-xl text-gray-600">Chargement des projets...</div>
@@ -99,7 +96,7 @@
                   </td>
                   <td class="px-6 py-4">
                     <a
-                      [routerLink]="['/dashboard/project-activities', project.id, project.name]"
+                      [routerLink]="['/project-activities', project.id, project.name]"
                       title="Activités associées à ce projet"
                       class="px-3 py-1 bg-black text-white rounded hover:bg-gray-800 inline-block"
                     >

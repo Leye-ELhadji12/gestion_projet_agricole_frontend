@@ -9,10 +9,11 @@ import { setErrorMessage } from '../errorMessage/message';
 })
 export class ProjectsService {
 
+  private http = inject(HttpClient);
+
   currentPage = signal(0);
   pageSize = signal(10);
   selectedProject = signal<number>(0);
-  private http = inject(HttpClient);
 
   private projectsUrl = computed(() => {
     const page = this.currentPage();
