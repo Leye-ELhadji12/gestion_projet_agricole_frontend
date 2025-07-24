@@ -6,7 +6,6 @@ import { UserFormModal } from './user-form-modal/user-form-modal';
 import { setErrorMessage } from '../errorMessage/message';
 import { ConfirmationModal } from '../projects/confirmation-modal/confirmation-modal';
 import { ErrorMessageModal } from '../projects/error-message-modal/error-message-modal';
-import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-users',
@@ -130,8 +129,6 @@ export class Users {
     switch (role) {
       case 'ADMIN':
         return 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 border border-red-400 dark:bg-red-900 dark:text-red-300 dark:border-red-700';
-      // case 'EDITOR':
-      //   return 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-400 dark:bg-blue-900 dark:text-blue-300 dark:border-blue-700';
       case 'VISITOR':
         return 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-400 dark:bg-green-900 dark:text-green-300 dark:border-green-700';
       default:
