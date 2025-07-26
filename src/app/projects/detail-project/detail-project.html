@@ -14,20 +14,20 @@
       <div class="flex items-center flex-wrap gap-2">
         <h3 class="font-medium text-gray-700">Parties prenantes:</h3>
         @if (projectResponsibles().length > 0) {
-          <div class="flex -space-x-2 overflow-hidden items-center">
+          <div class="flex -space-x-2 items-center">
             @for (responsible of projectResponsibles(); track responsible.email) {
-              <div class="relative group">
+              <div class="relative inline-block group">
                 <div
-                  class="relative inline-flex items-center justify-center w-8 h-8 rounded-full ring-2 ring-white text-white font-semibold text-xs"
+                  class="inline-flex items-center justify-center w-8 h-8 rounded-full ring-2 ring-white text-white font-semibold text-xs"
                   [style.background-color]="(responsible.email.length) % 2 === 0 ? '#4CAF50' : '#2196F3'"
                 >
                   {{ getInitials(responsible) }}
                 </div>
-                <div class="absolute z-10 hidden group-hover:block bg-white shadow-lg rounded-md p-2 min-w-[200px]">
-                  <div class="text-gray-800 font-medium">
+                <div class="absolute z-1000 left-1/2 transform -translate-x-1/2 bottom-full mb-2 hidden group-hover:block bg-white shadow-xl rounded-lg p-3 min-w-[200px] border border-gray-200">
+                  <div class="text-sm font-medium text-gray-900">
                     {{ responsible.firstname }} {{ responsible.lastname }}
                   </div>
-                  <div class="text-gray-500 text-sm">
+                  <div class="text-xs text-gray-500 mt-1">
                     {{ responsible.email }}
                   </div>
                 </div>

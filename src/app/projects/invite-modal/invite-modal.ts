@@ -16,7 +16,6 @@ export class InviteModal {
 
   selectedResponsibles = signal<Responsible[]>([]);
   allResponsibles = this.userService.responsibles();
-
   isSelected(responsible: Responsible): boolean {
     return this.selectedResponsibles().some(r => r.id === responsible.id);
   }
@@ -24,7 +23,6 @@ export class InviteModal {
   toggleResponsible(responsible: Responsible) {
     const current = this.selectedResponsibles();
     const exists = current.some(r => r.id === responsible.id);
-    
     if (exists) {
       this.selectedResponsibles.set(current.filter(r => r.id !== responsible.id));
     } else {

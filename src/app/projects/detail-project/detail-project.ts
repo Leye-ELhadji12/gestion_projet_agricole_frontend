@@ -55,43 +55,22 @@ export class DetailProject implements OnInit {
     this.showInviteModal.set(true);
   }
 
-  // handleSaveResponsibles(responsibles: Responsible[]) {
-  //   console.log('Responsables sélectionnés:', responsibles);
-  //   this.showInviteModal.set(false);
-  // }
   handleSaveResponsibles(responsibles: Responsible[]) {
-    console.log('Responsables reçus du modal:', responsibles);
     const responsibleIds = new Set(responsibles.map(r => r.id!));
-    console.log('IDs des responsables à envoyer:', Array.from(responsibleIds));
-
     this.isLoading.set(true);
     this.projectService.addResponsiblesToProject(this.project.id!, responsibleIds)
         .subscribe({
             next: (updatedProject) => {
-                console.log('Réponse du backend:', updatedProject);
-                // Effacer le cache pour forcer un rechargement
                 this.cachedResponsibles.delete(this.project.id!);
-
-                // Mettre à jour la liste des responsables avec les nouveaux
                 const currentResponsibles = this.projectResponsibles();
                 const newResponsibles = [...currentResponsibles, ...responsibles.filter(r =>
                     !currentResponsibles.some(cr => cr.id === r.id)
                 )];
                 this.projectResponsibles.set(newResponsibles);
                 this.cachedResponsibles.set(this.project.id!, newResponsibles);
-
-                // Fermer la modal
                 this.showInviteModal.set(false);
-
-                // Mettre à jour le projet parent si nécessaire
                 this.project.responsibles = updatedProject.responsibles;
                 this.responsiblesUpdated.emit();
-            },
-            error: (err) => {
-                console.error('Erreur complète:', err);
-                if (err.error) {
-                    console.error('Détails de l\'erreur:', err.error);
-                }
             },
             complete: () => this.isLoading.set(false)
         });
@@ -102,17 +81,13 @@ export class DetailProject implements OnInit {
         this.projectResponsibles.set(this.cachedResponsibles.get(this.project.id!)!);
         return;
     }
-
     this.projectService.getProjectResponsibles(this.project.id!)
-        .subscribe({
-            next: (responsibles) => {
-                this.cachedResponsibles.set(this.project.id!, responsibles);
-                this.projectResponsibles.set(responsibles);
-            },
-            error: (err) => {
-                console.error('Erreur chargement responsables', err);
-            }
-        });
+      .subscribe({
+        next: (responsibles) => {
+          this.cachedResponsibles.set(this.project.id!, responsibles);
+          this.projectResponsibles.set(responsibles);
+        }
+      });
   }
 
 }
