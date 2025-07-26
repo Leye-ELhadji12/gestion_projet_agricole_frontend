@@ -1,0 +1,53 @@
+<div class="bg-white rounded-xl shadow-lg p-6 max-w-2xl w-full mx-4 h-full">
+  <div class="flex justify-between items-center mb-6 bg-gray-700 p-4 rounded-t-lg">
+    <h2 class="text-xl font-bold text-white">Inviter des parties prenantes</h2>
+    <button
+      title="Fermer la modal"
+      (click)="onClose()"
+      class="text-white rounded p-2 hover:bg-opacity-20 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+    >
+      <i class="fas fa-times text-xl"></i>
+    </button>
+  </div>
+
+  <div class="space-y-6">
+    @if (allResponsibles.length === 0) {
+      <div class="flex justify-center items-center h-40">
+        <div class="animate-spin rounded-full h-12 w-12 border-4 border-t-blue-500 border-b-blue-500 border-gray-200"></div>
+      </div>
+    } @else {
+      <div class="max-h-96 overflow-y-auto pr-2">
+        @for (responsible of allResponsibles; track responsible.id) {
+          <div class="flex items-center p-3 hover:bg-blue-50 rounded-lg transition-colors">
+            <input
+              title="Sélectionner le responsable"
+              type="checkbox"
+              [checked]="isSelected(responsible)"
+              (change)="toggleResponsible(responsible)"
+              class="mr-3 h-5 w-5 text-blue-600 rounded focus:ring-blue-500"
+            />
+            <div class="flex flex-col">
+              <span class="text-gray-700">{{ responsible.firstname }} {{ responsible.lastname }}</span>
+              <span class="text-gray-500 text-sm">{{ responsible.email }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <div class="flex justify-end gap-4 pt-4">
+      <button
+        (click)="onClose()"
+        class="px-5 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+      >
+        Annuler
+      </button>
+      <button
+        (click)="onSave()"
+        class="px-5 py-2 bg-black text-white rounded-[10px] hover:bg-gray-800 transition-colors"
+      >
+        Enregistrer
+      </button>
+    </div>
+  </div>
+</div>

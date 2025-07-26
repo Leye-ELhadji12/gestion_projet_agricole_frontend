@@ -30,7 +30,6 @@ export class UserService {
   errorMessage = computed(() => setErrorMessage(this.error(), 'User'));
   isLoading = this.responsiblesResource.isLoading;
 
-
   loadPageResponsibles(page: number) {
     this.currentPage.set(page);
   }

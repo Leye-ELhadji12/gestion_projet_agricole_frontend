@@ -10,6 +10,7 @@ import { take } from 'rxjs/operators';
 import { ConfirmationModal } from './confirmation-modal/confirmation-modal';
 import { ErrorMessageModal } from './error-message-modal/error-message-modal';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 registerLocaleData(localeFr);
 
@@ -162,6 +163,16 @@ export class Projects {
 
   getProjectsByStatus(status: ProjectStatus): Project[] {
     return this.projects().filter(project => project.status.trim() === status.trim());
+  }
+
+  refreshProjectDetails() {
+    if (this.selectedProject()) {
+        this.projectService.getProjectById(this.selectedProject()!.id!)
+            .pipe(take(1)) // Important pour éviter les memory leaks
+            .subscribe(project => {
+                this.selectedProject.set(project);
+            });
+    }
   }
 
 }

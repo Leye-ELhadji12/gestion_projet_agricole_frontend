@@ -13,15 +13,24 @@
     <div class="bg-gray-50 p-4 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div class="flex items-center flex-wrap gap-2">
         <h3 class="font-medium text-gray-700">Parties prenantes:</h3>
-        @if (project.responsibles && project.responsibles.length > 0) {
+        @if (projectResponsibles().length > 0) {
           <div class="flex -space-x-2 overflow-hidden items-center">
-            @for (responsible of project.responsibles; track responsible.email) {
-              <div
-                class="relative inline-flex items-center justify-center w-8 h-8 rounded-full ring-2 ring-white text-white font-semibold text-xs"
-                [style.background-color]="(responsible.email.length) % 2 === 0 ? '#4CAF50' : '#2196F3'"
-                title="{{ responsible.firstname }} {{ responsible.lastname }}"
-              >
-                {{ getInitials(responsible) }}
+            @for (responsible of projectResponsibles(); track responsible.email) {
+              <div class="relative group">
+                <div
+                  class="relative inline-flex items-center justify-center w-8 h-8 rounded-full ring-2 ring-white text-white font-semibold text-xs"
+                  [style.background-color]="(responsible.email.length) % 2 === 0 ? '#4CAF50' : '#2196F3'"
+                >
+                  {{ getInitials(responsible) }}
+                </div>
+                <div class="absolute z-10 hidden group-hover:block bg-white shadow-lg rounded-md p-2 min-w-[200px]">
+                  <div class="text-gray-800 font-medium">
+                    {{ responsible.firstname }} {{ responsible.lastname }}
+                  </div>
+                  <div class="text-gray-500 text-sm">
+                    {{ responsible.email }}
+                  </div>
+                </div>
               </div>
             }
           </div>
@@ -64,3 +73,19 @@
     </div>
   </div>
 </div>
+
+@if (showInviteModal()) {
+  <div class="fixed inset-0 z-100 flex">
+    <div
+      class="fixed inset-0 backdrop-contrast-50"
+      (click)="showInviteModal.set(false)"
+    ></div>
+    <div class="relative ml-auto w-[400px] h-full">
+      <app-invite-modal
+        [projectId]="project.id!"
+        (closeModal)="showInviteModal.set(false)"
+        (save)="handleSaveResponsibles($event)"
+      ></app-invite-modal>
+    </div>
+  </div>
+}
