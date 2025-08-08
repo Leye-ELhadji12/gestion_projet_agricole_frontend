@@ -57,7 +57,7 @@ export class FormModal implements OnChanges {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(changes: SimpleChanges) {
     if (this.kanban && this.presetStatus) {
       this.activityForm.get('status')?.enable({ emitEvent: false });
       this.activityForm.patchValue({ status: this.presetStatus }, { emitEvent: false });
@@ -75,10 +75,10 @@ export class FormModal implements OnChanges {
   isFormValid(): boolean {
     if (this.kanban && this.presetStatus) {
       return this.validOf('title') &&
-             this.validOf('description') &&
-             this.validOf('plannedStartDate') &&
-             this.validOf('plannedEndDate') &&
-             this.validOf('priorite');
+            this.validOf('description') &&
+            this.validOf('plannedStartDate') &&
+            this.validOf('plannedEndDate') &&
+            this.validOf('priorite');
     }
     return this.activityForm.valid;
   }

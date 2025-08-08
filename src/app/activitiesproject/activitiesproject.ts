@@ -10,10 +10,11 @@ import { FormModal } from './form-modal/form-modal';
 import { ConfirmationModal } from '../projects/confirmation-modal/confirmation-modal';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorMessageModal } from './error-message-modal/error-message-modal';
+import { DetailActivity } from './detail-activity/detail-activity';
 
 @Component({
   selector: 'app-activitiesproject',
-  imports: [ CommonModule, DragDropModule, FormModal, ConfirmationModal, ErrorMessageModal ],
+  imports: [ CommonModule, DragDropModule, FormModal, ConfirmationModal, ErrorMessageModal, DetailActivity ],
   templateUrl: './activitiesproject.html',
   styleUrl: './activitiesproject.css'
 })

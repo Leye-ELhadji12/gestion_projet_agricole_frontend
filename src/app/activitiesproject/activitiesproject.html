@@ -261,7 +261,13 @@
       (click)="closeDetailsModal()"
     ></div>
     <div class="relative ml-auto w-[800px] h-full bg-white shadow-xl z-50">
-      <p class="p-4 text-center text-lg">Activity Details for {{ selectedActivity()!.title }}</p>
+      <app-detail-activity
+        [activity]="selectedActivity()"
+        (closeModal)="closeDetailsModal()"
+      />
+      <!-- @if (selectedActivity()?.id) {
+        <app-document-management [activityId]="selectedActivity()!.id"></app-document-management>
+      } -->
     </div>
   </div>
 }

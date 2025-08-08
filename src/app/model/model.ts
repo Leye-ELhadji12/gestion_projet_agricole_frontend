@@ -83,3 +83,25 @@ export enum Priorite {
   NORMALE = 'Normale',
   FAIBLE = 'Faible'
 }
+
+export enum DocumentType {
+  Report = 'Report',
+  Contract = 'Contract',
+  Invoice = 'Invoice',
+  Letter = 'Letter',
+  Specification = 'Spécification',
+  Photo = 'Photo',
+  Video = 'Vidéo',
+  Autre = 'Autre'
+}
+
+export interface DocumentDTO {
+  id?: number;
+  originalFileName: string;
+  fileType: string;
+  filePath?: string;
+  uploadDate?: Date;
+  activityId: number;
+  type: DocumentType;
+  fileSize?: number;
+}

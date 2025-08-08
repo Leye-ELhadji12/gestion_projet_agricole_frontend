@@ -1,0 +1,68 @@
+<div class="p-6 h-full overflow-y-auto rounded-md">
+  <div class="flex justify-between items-center mb-6 bg-gray-700 p-4 rounded-t-lg">
+    <h2 class="text-xl font-bold text-white">Détails de l'activité</h2>
+    <button
+      title="Fermer le modal"
+      (click)="onClose()"
+      class="text-white rounded p-2 hover:bg-opacity-20 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+    >
+      <i class="fas fa-times text-lg"></i>
+    </button>
+  </div>
+  <div class="space-y-6">
+    <div class="bg-gray-50 p-4 rounded-lg">
+      <h3 class="font-medium text-gray-700">Titre: </h3>
+      <p class="text-gray-700 mb-3">{{ activity?.title }}</p>
+      <h3 class="font-medium text-gray-700 mb-1">Description</h3>
+      <p class="text-gray-700">
+        {{ activity?.description }}
+      </p>
+    </div>
+    <div class="bg-gray-50 p-4 rounded-lg">
+      <h3 class="font-medium text-gray-700">Période planifiée:</h3>
+      <p class="text-gray-700 mb-3">{{ activity?.plannedStartDate | date:'fullDate':'':'fr'}} - {{ activity?.plannedEndDate | date:'fullDate':'':'fr'}}</p>
+      <h3 class="font-medium text-gray-700">Statut: </h3>
+      <p class="text-gray-700 mb-3">{{ activity?.status }}</p>
+      <h3 class="font-medium text-gray-700">Priorité: </h3>
+      <p class="text-gray-700">{{ activity?.priorite }}</p>
+    </div>
+    <div class="bg-gray-50 p-4 rounded-lg flex">
+      <button
+        type="button"
+        (click)="triggerFileInput()"
+        class="cursor-pointer px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-700 transition-colors space-x-2 sm:w-auto"
+      >
+        <i class="fas fa-paperclip"></i>
+        <span>Attacher un document</span>
+      </button>
+      <input
+        title="Attacher un document"
+        type="file"
+        #fileInput
+        class="hidden"
+        (change)="onFileSelected($event)"
+        accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx"
+      />
+      <select
+        name="selected"
+        id="documentType"
+        (change)="onDocumentTypeSelected($event)"
+        class="me-10 shadow mt-0.5 block sm:w-auto pl-1 pr-10 py-1 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md ml-auto"
+        title="Sélectionner le type de document"
+      >
+        <option [value]="null">Sélectionner le type de document</option>
+        @for (type of documentTypes; track type) {
+          <option [ngValue]="type">{{ type }}</option>
+        }
+      </select>
+      <button
+        type="button"
+        (click)="uploadDocument()"
+        [disabled]="!selectedFile || !selectedDocumentType"
+        class="cursor-pointer justify-center sm:w-auto px-2 py-2 bg-black text-white rounded-md hover:bg-[#2a2b2a] transition-colors"
+      >
+        Enregistrer
+      </button>
+    </div>
+  </div>
+</div>
