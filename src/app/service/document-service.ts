@@ -1,5 +1,5 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { HttpClient, httpResource } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DocumentDTO } from '../model/model';
 import { dev } from '../../environment/develpment';
@@ -22,9 +22,9 @@ export class DocumentService {
     return this.http.get<DocumentDTO>(`${dev.apiUrl}${dev.apiVersion}documents/${id}`);
   }
 
-  getAllDocuments(): Observable<DocumentDTO[]> {
-    return this.http.get<DocumentDTO[]>(`${dev.apiUrl}${dev.apiVersion}documents`);
-  }
+  // getAllDocuments(): Observable<DocumentDTO[]> {
+  //   return this.http.get<DocumentDTO[]>(`${dev.apiUrl}${dev.apiVersion}documents`);
+  // }
 
   deleteDocument(id: number): Observable<void> {
     return this.http.delete<void>(`${dev.apiUrl}${dev.apiVersion}documents/${id}`);
@@ -33,4 +33,17 @@ export class DocumentService {
   getDocumentsByActivityId(activityId: number): Observable<DocumentDTO[]> {
     return this.http.get<DocumentDTO[]>(`${dev.apiUrl}${dev.apiVersion}documents/activity/${activityId}`);
   }
+
+  currentActivityId = signal(0);
+  private activityUrl = computed(() => {
+    const activityId = this.currentActivityId();
+    if (activityId === null) return '';
+    return `${dev.apiUrl}${dev.apiVersion}documents/activity/${activityId}`;
+  });
+
+  private documentResource = httpResource<DocumentDTO[]>(this.activityUrl);
+
+  documentList = computed(() => this.documentResource.value() ?? {} as DocumentDTO);
+
+
 }

@@ -99,9 +99,8 @@ export interface DocumentDTO {
   id?: number;
   originalFileName: string;
   fileType: string;
-  filePath?: string;
-  uploadDate?: Date;
+  file?: File;
   activityId: number;
   type: DocumentType;
-  fileSize?: number;
+  fileSize: number;
 }
