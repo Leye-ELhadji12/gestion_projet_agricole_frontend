@@ -1,27 +1,46 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, inject, signal } from '@angular/core';
 import { Activity, DocumentType, DocumentDTO } from '../../model/model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DocumentService } from '../../service/document-service';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-detail-activity',
   imports: [CommonModule, FormsModule],
   templateUrl: './detail-activity.html',
-  styleUrl: './detail-activity.css'
+  styleUrl: './detail-activity.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailActivity {
 
-  @Input() activity: Activity | null = null;
+  private _activity: Activity | null = null;
+
+  @Input()
+  set activity(value: Activity | null) {
+    this._activity = value;
+    if (value?.id) {
+      this.documentService.currentActivityId.set(value.id);
+    }
+  }
+
+  get activity(): Activity | null {
+    return this._activity;
+  }
+
   @Output() closeModal = new EventEmitter<void>();
 
   @ViewChild('fileInput') fileInput!: ElementRef;
 
   documentTypes = Object.values(DocumentType);
   selectedFile: File | null = null;
-  selectedDocumentType: DocumentType | null = null;
+  selectedDocumentType = signal<DocumentType | null>(null);
+  selectedActivity = signal<Activity | null>(null);
 
   private documentService = inject(DocumentService);
+  private cdr = inject(ChangeDetectorRef);
+
+  livrables = this.documentService.documentList;
 
   onClose() {
     this.closeModal.emit();
@@ -42,14 +61,14 @@ export class DetailActivity {
 
   onDocumentTypeSelected(event: Event) {
     const selectedType = (event.target as HTMLSelectElement).value as DocumentType;
-    this.selectedDocumentType = selectedType;
+    this.selectedDocumentType.set(selectedType);
     console.log("Type de document sélectionné :", this.selectedDocumentType);
   }
 
   uploadDocument() {
     if (this.selectedFile && this.selectedDocumentType && this.activity?.id) {
       const documentDTO: DocumentDTO = {
-        type: this.selectedDocumentType,
+        type: this.selectedDocumentType()!,
         originalFileName: this.selectedFile.name,
         fileType: this.selectedFile.type,
         fileSize: this.selectedFile.size,
@@ -60,9 +79,10 @@ export class DetailActivity {
       this.documentService.uploadDocument(this.selectedFile, documentDTO).subscribe({
         next: (response) => {
           console.log('Document uploaded successfully:', response);
-          // Optionally, clear the selected file and type after successful upload
           this.selectedFile = null;
-          this.selectedDocumentType = null;
+          this.selectedDocumentType.set(null);
+          this.documentService.refreshDocuments();
+          this.cdr.detectChanges();
         },
         error: (error) => {
           console.error('Error uploading document:', error);

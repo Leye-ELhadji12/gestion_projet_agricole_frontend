@@ -34,16 +34,19 @@ export class DocumentService {
     return this.http.get<DocumentDTO[]>(`${dev.apiUrl}${dev.apiVersion}documents/activity/${activityId}`);
   }
 
-  currentActivityId = signal(0);
-  private activityUrl = computed(() => {
+  currentActivityId = signal<number | null>(null);
+  private documentUrl = computed(() => {
     const activityId = this.currentActivityId();
     if (activityId === null) return '';
     return `${dev.apiUrl}${dev.apiVersion}documents/activity/${activityId}`;
   });
 
-  private documentResource = httpResource<DocumentDTO[]>(this.activityUrl);
+  private documentResource = httpResource<DocumentDTO[]>(this.documentUrl);
 
-  documentList = computed(() => this.documentResource.value() ?? {} as DocumentDTO);
+  documentList = computed(() => this.documentResource.value() ?? ([] as DocumentDTO[]));
 
+  refreshDocuments() {
+    this.documentResource.reload();
+  }
 
 }

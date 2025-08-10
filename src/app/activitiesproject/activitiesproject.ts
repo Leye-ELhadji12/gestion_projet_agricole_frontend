@@ -82,7 +82,8 @@ export class Activitiesproject implements OnInit {
   }
 
   nextPage() {
-    if (this.currentPage() < this.totalPages() - 1) this.goToPage(this.currentPage() + 1);
+    if (this.currentPage() < this.totalPages() - 1)
+      this.goToPage(this.currentPage() + 1);
   }
 
   closeDetailsModal() {

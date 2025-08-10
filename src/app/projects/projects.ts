@@ -168,7 +168,7 @@ export class Projects {
   refreshProjectDetails() {
     if (this.selectedProject()) {
         this.projectService.getProjectById(this.selectedProject()!.id!)
-            .pipe(take(1)) // Important pour éviter les memory leaks
+            .pipe(take(1))
             .subscribe(project => {
                 this.selectedProject.set(project);
             });

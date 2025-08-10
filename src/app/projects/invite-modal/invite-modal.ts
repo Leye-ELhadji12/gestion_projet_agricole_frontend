@@ -16,6 +16,7 @@ export class InviteModal {
 
   selectedResponsibles = signal<Responsible[]>([]);
   allResponsibles = this.userService.responsibles();
+
   isSelected(responsible: Responsible): boolean {
     return this.selectedResponsibles().some(r => r.id === responsible.id);
   }
@@ -38,4 +39,5 @@ export class InviteModal {
   onClose() {
     this.closeModal.emit();
   }
+
 }
