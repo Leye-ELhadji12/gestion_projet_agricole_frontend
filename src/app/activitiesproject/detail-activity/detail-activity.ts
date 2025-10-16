@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, inject, signal } from '@angular/core';
-import { Activity, DocumentType, DocumentDTO } from '../../model/model';
+import { Activity, DeliverableDTO, DocumentType } from '../../model/model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DocumentService } from '../../service/document-service';
@@ -67,16 +67,16 @@ export class DetailActivity {
 
   uploadDocument() {
     if (this.selectedFile && this.selectedDocumentType && this.activity?.id) {
-      const documentDTO: DocumentDTO = {
+      const deliverableDTO: DeliverableDTO = {
         type: this.selectedDocumentType()!,
         originalFileName: this.selectedFile.name,
         fileType: this.selectedFile.type,
         fileSize: this.selectedFile.size,
         activityId: this.activity.id
       };
-      console.log('les donnees :', documentDTO);
+      console.log('les donnees :', deliverableDTO);
 
-      this.documentService.uploadDocument(this.selectedFile, documentDTO).subscribe({
+      this.documentService.uploadDocument(this.selectedFile, deliverableDTO).subscribe({
         next: (response) => {
           console.log('Document uploaded successfully:', response);
           this.selectedFile = null;

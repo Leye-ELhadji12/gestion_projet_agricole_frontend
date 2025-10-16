@@ -12,6 +12,113 @@
           <i class="fas fa-plus mr-2"></i>Nouveau projet
         </button>
       </div>
+      <!-- Formulaire de recherche -->
+      <div class="bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 shadow-sm p-4 rounded-lg mb-6">
+        <h3 class="text-lg font-semibold text-slate-700 mb-4 flex items-center">
+          <i class="fas fa-search mr-2 text-blue-600"></i>Rechercher des projets
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Recherche par nom -->
+          <div class="transition-all duration-200 ease-in-out">
+            <label class="block text-sm font-medium text-slate-700 mb-1">
+              <i class="fas fa-project-diagram text-slate-500 mr-1"></i>Nom du projet
+            </label>
+            <!-- [(ngModel)]="searchForm.name"
+                (input)="onSearchChange()" -->
+            <div class="relative">
+              <input
+                type="text"
+                placeholder="Rechercher par nom..."
+                class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-slate-400 placeholder-slate-400"
+              />
+              <!-- @if (Loading() && searchForm.name.trim()) {
+                <div class="absolute right-2 top-2">
+                  <i class="fas fa-spinner fa-spin text-blue-500"></i>
+                </div>
+              } -->
+            </div>
+          </div>
+
+          <!-- Recherche par description -->
+          <div class="transition-all duration-200 ease-in-out">
+            <label class="block text-sm font-medium text-slate-700 mb-1">
+              <i class="fas fa-align-left text-slate-500 mr-1"></i>Description
+            </label>
+            <div class="relative">
+              <input
+                type="text"
+                placeholder="Rechercher par description..."
+                class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-slate-400 placeholder-slate-400"
+              />
+              <!-- [(ngModel)]="searchForm.status" -->
+
+
+              <!-- @if (Loading() && searchForm.description.trim()) {
+                <div class="absolute right-2 top-2">
+                  <i class="fas fa-spinner fa-spin text-blue-500"></i>
+                </div>
+              } -->
+            </div>
+          </div>
+
+          <!-- Filtre par statut -->
+          <div class="transition-all duration-200 ease-in-out">
+            <label class="block text-sm font-medium text-slate-700 mb-1">
+              <i class="fas fa-tags text-slate-500 mr-1"></i>Statut
+            </label>
+            <select
+              class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-slate-400"
+            >
+              <option value="">Tous les statuts</option>
+              <option value="Terminé">Terminé</option>
+              <option value="En_cours">En cours</option>
+              <option value="Pause">Pause</option>
+              <option value="Prévisionnel">Prévisionnel</option>
+            </select>
+          </div>
+
+          <!-- Filtre par budget -->
+          <div class="transition-all duration-200 ease-in-out">
+            <label class="block text-sm font-medium text-slate-700 mb-1">
+              <i class="fas fa-wallet text-slate-500 mr-1"></i>Budget maximum
+            </label>
+            <div class="relative">
+              <input
+                type="number"
+                placeholder="Budget max..."
+                min="0"
+                step="100"
+                class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-slate-400 placeholder-slate-400"
+              />
+              <!-- @if (Loading() && searchForm.maxBudget !== null && searchForm.maxBudget > 0) {
+                <div class="absolute right-2 top-2">
+                  <i class="fas fa-spinner fa-spin text-blue-500"></i>
+                </div>
+              } -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Boutons d'action -->
+        <div class="flex gap-2 mt-4">
+          <button
+            class="px-4 py-2 bg-slate-500 text-white rounded-md hover:bg-slate-600 transition-all duration-200 flex items-center font-medium hover:transform hover:-translate-y-0.5 hover:shadow-md"
+          >
+            <i class="fas fa-times mr-2"></i>Effacer
+          </button>
+          <button
+            class="px-4 py-2 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 transition-all duration-200 flex items-center font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:transform hover:-translate-y-0.5 hover:shadow-md"
+          >
+            <i class="fas fa-download mr-2"></i>Exporter
+          </button>
+        </div>
+
+        <!-- Résumé des résultats -->
+        <div class="mt-3 p-2 bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 rounded text-sm text-blue-700">
+          <i class="fas fa-info-circle mr-1"></i>
+          Résultats de recherche disponibles
+        </div>
+      </div>
     </div>
     @if (Loading()) {
       <div class="flex justify-center items-center h-48">

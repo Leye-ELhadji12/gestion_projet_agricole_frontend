@@ -95,12 +95,13 @@ export enum DocumentType {
   Autre = 'Autre'
 }
 
-export interface DocumentDTO {
+export interface DeliverableDTO {
   id?: number;
-  originalFileName: string;
+  name?: string;
+  originalFileName?: string;
   fileType: string;
   file?: File;
   activityId: number;
   type: DocumentType;
-  fileSize: number;
+  fileSize?: number;
 }

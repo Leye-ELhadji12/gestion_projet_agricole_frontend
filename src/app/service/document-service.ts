@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient, httpResource } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DocumentDTO } from '../model/model';
+import { DeliverableDTO } from '../model/model';
 import { dev } from '../../environment/develpment';
 
 @Injectable({
@@ -11,15 +11,15 @@ export class DocumentService {
 
   private http = inject(HttpClient);
 
-  uploadDocument(file: File, documentDTO: DocumentDTO): Observable<DocumentDTO> {
+  uploadDocument(file: File, documentDTO: DeliverableDTO): Observable<DeliverableDTO> {
     const formData: FormData = new FormData();
     formData.append('file', file);
     formData.append('documentDTO', new Blob([JSON.stringify(documentDTO)], { type: 'application/json' }));
-    return this.http.post<DocumentDTO>(`${dev.apiUrl}${dev.apiVersion}documents/upload`, formData);
+    return this.http.post<DeliverableDTO>(`${dev.apiUrl}${dev.apiVersion}documents/upload`, formData);
   }
 
-  getDocumentById(id: number): Observable<DocumentDTO> {
-    return this.http.get<DocumentDTO>(`${dev.apiUrl}${dev.apiVersion}documents/${id}`);
+  getDocumentById(id: number): Observable<DeliverableDTO> {
+    return this.http.get<DeliverableDTO>(`${dev.apiUrl}${dev.apiVersion}documents/${id}`);
   }
 
   // getAllDocuments(): Observable<DocumentDTO[]> {
@@ -30,8 +30,8 @@ export class DocumentService {
     return this.http.delete<void>(`${dev.apiUrl}${dev.apiVersion}documents/${id}`);
   }
 
-  getDocumentsByActivityId(activityId: number): Observable<DocumentDTO[]> {
-    return this.http.get<DocumentDTO[]>(`${dev.apiUrl}${dev.apiVersion}documents/activity/${activityId}`);
+  getDocumentsByActivityId(activityId: number): Observable<DeliverableDTO[]> {
+    return this.http.get<DeliverableDTO[]>(`${dev.apiUrl}${dev.apiVersion}documents/activity/${activityId}`);
   }
 
   currentActivityId = signal<number | null>(null);
@@ -41,9 +41,9 @@ export class DocumentService {
     return `${dev.apiUrl}${dev.apiVersion}documents/activity/${activityId}`;
   });
 
-  private documentResource = httpResource<DocumentDTO[]>(this.documentUrl);
+  private documentResource = httpResource<DeliverableDTO[]>(this.documentUrl);
 
-  documentList = computed(() => this.documentResource.value() ?? ([] as DocumentDTO[]));
+  documentList = computed(() => this.documentResource.value() ?? ([] as DeliverableDTO[]));
 
   refreshDocuments() {
     this.documentResource.reload();

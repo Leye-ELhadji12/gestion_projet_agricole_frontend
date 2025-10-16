@@ -10,15 +10,14 @@ import { take } from 'rxjs/operators';
 import { ConfirmationModal } from './confirmation-modal/confirmation-modal';
 import { ErrorMessageModal } from './error-message-modal/error-message-modal';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 registerLocaleData(localeFr);
 
 @Component({
   selector: 'app-projects',
-  imports: [DatePipe, CurrencyPipe, CommonModule, DetailProject, RouterLink, FormModal, ConfirmationModal, ErrorMessageModal],
+  imports: [DatePipe, CurrencyPipe, CommonModule, FormsModule, DetailProject, RouterLink, FormModal, ConfirmationModal, ErrorMessageModal],
   templateUrl: './projects.html',
-  styleUrl: './projects.css',
 })
 export class Projects {
 

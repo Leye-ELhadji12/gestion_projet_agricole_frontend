@@ -18,10 +18,36 @@ export class ProjectsService {
   pageSize = signal(10);
   selectedProject = signal<number>(0);
 
+  // Paramètres de recherche
+  searchParams = signal({
+    name: '',
+    description: '',
+    status: '',
+    maxBudget: null as number | null
+  });
+
   private projectsUrl = computed(() => {
     const page = this.currentPage();
     const size = this.pageSize();
-    return `${dev.apiUrl}${dev.apiVersion}projects?page=${page}&size=${size}`;
+    const search = this.searchParams();
+    
+    let url = `${dev.apiUrl}${dev.apiVersion}projects?page=${page}&size=${size}`;
+    
+    // Ajouter les paramètres de recherche s'ils sont définis
+    if (search.name.trim()) {
+      url += `&name=${encodeURIComponent(search.name.trim())}`;
+    }
+    if (search.description.trim()) {
+      url += `&description=${encodeURIComponent(search.description.trim())}`;
+    }
+    if (search.status) {
+      url += `&status=${encodeURIComponent(search.status)}`;
+    }
+    if (search.maxBudget !== null && search.maxBudget > 0) {
+      url += `&maxBudget=${search.maxBudget}`;
+    }
+    
+    return url;
   });
 
   private projectsResource = httpResource<ProjectResponse>(this.projectsUrl);
@@ -42,6 +68,36 @@ export class ProjectsService {
 
   loadPage(page: number) {
     this.currentPage.set(page);
+  }
+
+  // Méthodes pour gérer la recherche
+  updateSearchParams(searchParams: {
+    name: string;
+    description: string;
+    status: string;
+    maxBudget: number | null;
+  }) {
+    this.searchParams.set(searchParams);
+    // Remettre à la première page lors d'une nouvelle recherche
+    this.currentPage.set(0);
+  }
+
+  clearSearch() {
+    this.searchParams.set({
+      name: '',
+      description: '',
+      status: '',
+      maxBudget: null
+    });
+    this.currentPage.set(0);
+  }
+
+  hasActiveSearch(): boolean {
+    const search = this.searchParams();
+    return search.name.trim() !== '' ||
+           search.description.trim() !== '' ||
+           search.status !== '' ||
+           (search.maxBudget !== null && search.maxBudget > 0);
   }
 
   createProject(project: Project) {
